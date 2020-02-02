@@ -1,6 +1,8 @@
 
 class AppStrings{
 
+static final loginTitle = "App Name";
+
 static final loginHello = "Hello, Welcome to App";
 static final loginHintEmail = "Email ...";
 static final loginBtnLogin = "Log In";

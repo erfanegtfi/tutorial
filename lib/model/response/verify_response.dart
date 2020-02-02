@@ -1,15 +1,16 @@
 import 'package:tutorial/model/language.dart';
+import 'package:tutorial/model/meta.dart';
+import 'package:tutorial/model/response/base_response.dart';
 import 'package:tutorial/model/user.dart';
 
-class VerfyResponse {
-  Meta meta;
+class VerfyResponse  extends BaseResponse{
   Data data;
 
-  VerfyResponse({this.meta, this.data});
+  VerfyResponse({this.data});
 
   VerfyResponse.fromJson(Map<String, dynamic> json) {
-    meta = json['meta'] != null ? new Meta.fromJson(json['meta']) : null;
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    meta = json['meta'] != null ? Meta.fromJson(json['meta']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -24,24 +25,6 @@ class VerfyResponse {
   }
 }
 
-class Meta {
-  String msg;
-  String status;
-
-  Meta({this.msg, this.status});
-
-  Meta.fromJson(Map<String, dynamic> json) {
-    msg = json['msg'];
-    status = json['status'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['msg'] = this.msg;
-    data['status'] = this.status;
-    return data;
-  }
-}
 
 class Data {
   User user;

@@ -30,4 +30,28 @@ class FormValidator {
       return null;
     }
   }
+ String validateFullName(String value) {
+    String pattern = r'^[a-zA-Z]{3,}(?: [a-zA-Z]+){0,2}$';
+    RegExp regExp = new RegExp(pattern);
+    if (value.isEmpty) {
+      return "Full name is Required";
+    } else if (!regExp.hasMatch(value)) {
+      return "Invalid name";
+    } else {
+      return null;
+    }
+  }
+
+  String validateMobile(String value) {
+    String pattern =
+        r'^(\+\d{1,3}[- ]?)?\d{10,11}$';
+    RegExp regExp = new RegExp(pattern);
+    if (value.isEmpty) {
+      return "Mobile is Required";
+    } else if (!regExp.hasMatch(value)) {
+      return "Invalid Mobile";
+    } else {
+      return null;
+    }
+  }
 }

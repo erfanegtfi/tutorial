@@ -4,16 +4,17 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:tutorial/model/language.dart';
 import 'package:tutorial/model/user.dart';
+import 'package:tutorial/repository/authentication_repository.dart';
 import 'package:tutorial/shared/styles/app_fonts.dart';
 import 'package:tutorial/shared/styles/app_string.dart';
 import 'package:tutorial/shared/utils/form_validator.dart';
+import 'package:tutorial/shared/utils/utils_dialog.dart';
 
 class CompleteProfilePage extends StatefulWidget {
   static String tag = 'CompleteProfilePage-page';
   List<Language> _labguages;
-CompleteProfilePage(this._labguages){
-  print(_labguages[0]);
-}
+  int userID;
+  CompleteProfilePage(this._labguages, this.userID);
 
   @override
   State<StatefulWidget> createState() {
@@ -24,7 +25,6 @@ CompleteProfilePage(this._labguages){
 class _CompleteProfilePageState extends State<CompleteProfilePage> {
   GlobalKey<FormState> _key = new GlobalKey();
   // bool _validate = false;
-  User _loginData = User();
   final user = GetIt.instance<User>();
   // bool _obscureText = true;
   @override
@@ -101,29 +101,28 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
   //               itemBuilder: _buildDialogItem)),
   //     );
 
- 
-
-_openLanguagePickerDialog() {
+  _openLanguagePickerDialog() {
     showDialog(
         context: context,
         builder: (context) => SingleChoiceConfirmationDialog<Language>(
             title: Text('Select your language'),
-            
             items: widget._labguages,
             onSelected: _onSelected,
             onSubmitted: _onSubmitted));
   }
- void _onSelected(Language value) {
+
+  void _onSelected(Language value) {
     print('Selected $value');
     setState(() {
-      _ringTone = value;
+      user.language = value;
     });
   }
-Language _ringTone;
+
+  // Language language;
   void _onSubmitted(Language value) {
     print('Submitted $value');
     setState(() {
-      _ringTone = value;
+      user.language = value;
     });
   }
 
@@ -144,9 +143,9 @@ Language _ringTone;
             contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
           ),
-          validator: FormValidator().validateEmail,
+          // validator: FormValidator().validateEmail,
           onSaved: (String value) {
-            _loginData.setName = value;
+            user.setName = value;
           },
         ),
         new SizedBox(height: 20.0),
@@ -158,7 +157,7 @@ Language _ringTone;
             contentPadding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
           ),
-          validator: FormValidator().validateEmail,
+          validator: FormValidator().validateMobile,
           onSaved: (String value) {
             // _loginData.setMobile = value;
           },
@@ -191,7 +190,7 @@ Language _ringTone;
           child: Observer(
             builder: (_) {
               return languageText(
-                user.languageName,
+                user.language?.name ?? "",
               );
             },
           ),
@@ -226,15 +225,36 @@ Language _ringTone;
     if (_key.currentState.validate()) {
       // No any error in validation
       _key.currentState.save();
-      print("Email ${_loginData.fullName}");
-      // print("Password ${_loginData.password}");
-    } else {
+
+      user.updateUserProfile(user.fullName, user.language.id.toString(), widget.userID.toString()).then((it) {
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (context) => VerificationPage(
+        //         email: user.email,
+        //         id: user.id,
+        //       ),
+        //     ));
+      }).catchError((onError) {
+        UtilsDialog.showErrorDialog(context, "Error", "An error ecoured");
+      });
+
+      //   AuthenticationRepository authenticationRepository = AuthenticationRepository();
+      //   authenticationRepository
+      //       .updateUserProfile(_loginData.fullName, language.id.toString(), "1")
+      //       .then((c) => {
+
+      //           })
+      //       .catchError((onError) => {});
+
+      //   print("Email ${_loginData.fullName}");
+      // } else {
       // validation error
       // setState(() {
       //   _validate = true;
       // });
+      // }
     }
-  }
 
 //   Future<Null> _showForgotPasswordDialog() async {
 //     await showDialog<String>(
@@ -265,4 +285,5 @@ Language _ringTone;
 //           );
 //         });
 //   }
+  }
 }
