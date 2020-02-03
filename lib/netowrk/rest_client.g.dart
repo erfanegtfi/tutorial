@@ -16,9 +16,10 @@ class _RestClient implements RestClient {
   String baseUrl;
 
   @override
-  getTasks() async {
+  getCourseList(page) async {
+    ArgumentError.checkNotNull(page, 'page');
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{'page': page};
     final _data = <String, dynamic>{};
     final Response<Map<String, dynamic>> _result = await _dio.request(
         'course/index',
@@ -30,6 +31,25 @@ class _RestClient implements RestClient {
             baseUrl: baseUrl),
         data: _data);
     final value = CourseListResponse.fromJson(_result.data);
+    return Future.value(value);
+  }
+
+  @override
+  getSubCourseList(id) async {
+    ArgumentError.checkNotNull(id, 'id');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        'course-list/index/$id',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = SubCourseResponse.fromJson(_result.data);
     return Future.value(value);
   }
 

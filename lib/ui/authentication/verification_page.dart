@@ -3,15 +3,15 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_verification_code_input/flutter_verification_code_input.dart';
 import 'package:get_it/get_it.dart';
 import 'package:progress_dialog/progress_dialog.dart';
-import 'package:tutorial/complete_profile.dart';
+import 'package:tutorial/model/user.dart';
 import 'package:tutorial/repository/authentication_repository.dart';
 import 'package:tutorial/shared/styles/app_fonts.dart';
 import 'package:tutorial/shared/styles/app_string.dart';
 import 'package:tutorial/shared/utils/utils_dialog.dart';
 import 'package:tutorial/shared/utils/utils_prefrence.dart';
-import 'model/response/login_response.dart';
-import 'model/response/verify_response.dart';
-import 'model/user.dart';
+
+import 'complete_profile.dart';
+
 
 class VerificationPage extends StatefulWidget {
   static String tag = 'verification-page';

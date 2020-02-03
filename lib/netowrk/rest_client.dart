@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:tutorial/model/response/course_list_response.dart';
 import 'package:tutorial/model/response/login_response.dart';
 import 'package:tutorial/model/response/profile_response.dart';
+import 'package:tutorial/model/response/sub_course_response.dart';
 import 'package:tutorial/model/response/verify_response.dart';
 part 'rest_client.g.dart';
 
@@ -11,7 +12,10 @@ abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 
   @GET("course/index")
-  Future<CourseListResponse> getTasks();
+  Future<CourseListResponse> getCourseList(@Query("page") int page);
+
+  @GET("course-list/index/{id}")
+  Future<SubCourseResponse> getSubCourseList(@Path("id") int id);
 
   @POST("user/login/enter-login-code")
   Future<VerfyResponse> verfyUser(@Body() Map<String, dynamic> map);

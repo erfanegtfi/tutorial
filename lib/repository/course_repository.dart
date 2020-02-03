@@ -9,7 +9,7 @@ class AuthenticationRepository {
   Future<LoginResponse> getCourseList() async {
     var dio = GetIt.instance<Dio>();
     final client = RestClient(dio);
-    client.getTasks().then((it) {}).catchError((onError) {});
+    client.getCourseList(1).then((it) {}).catchError((onError) {});
 
     // final statusCode = response.statusCode;
     // if (statusCode != 200 || response.data == null) {

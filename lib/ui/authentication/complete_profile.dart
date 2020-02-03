@@ -143,7 +143,7 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
             contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
           ),
-          // validator: FormValidator().validateEmail,
+          validator: FormValidator().validateFullName,
           onSaved: (String value) {
             user.setName = value;
           },

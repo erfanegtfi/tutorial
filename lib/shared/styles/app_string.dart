@@ -16,4 +16,6 @@ static final profileMobile = "Mobile numer";
 static final profileCompleteTitle = "Please complete your profile";
 static final profileCompleteBtnSubmit = "Submit";
 static final profileCompleteLanguage = "Choose your language";
+
+static final courseListTitle = "Course List";
 }

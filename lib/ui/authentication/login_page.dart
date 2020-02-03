@@ -8,9 +8,8 @@ import 'package:tutorial/shared/styles/app_string.dart';
 import 'package:tutorial/shared/utils/form_validator.dart';
 import 'package:tutorial/shared/utils/utils_dialog.dart';
 import 'package:tutorial/shared/utils/utils_prefrence.dart';
-import 'package:tutorial/verification_page.dart';
+import 'package:tutorial/ui/authentication/verification_page.dart';
 
-import 'model/response/login_response.dart';
 
 class LoginPage extends StatefulWidget {
   static String tag = 'login-page';

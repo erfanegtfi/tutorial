@@ -1,37 +1,29 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:tutorial/complete_profile.dart';
+import 'package:tutorial/model/course.dart';
 import 'package:tutorial/model/user.dart';
 import 'package:tutorial/netowrk/dio_configuration.dart';
-import 'package:tutorial/shared/styles/constants.dart';
-import 'package:tutorial/verification_page.dart';
-
-import 'login_page.dart';
+import 'package:tutorial/shared/utils/utils_prefrence.dart';
+import 'package:tutorial/ui/authentication/login_page.dart';
+import 'package:tutorial/ui/authentication/verification_page.dart';
+import 'package:tutorial/ui/course/course_list_page.dart';
 
 GetIt getIt = GetIt.instance;
 
 void main() {
   getIt.registerSingleton<User>(User());
+  getIt.registerSingleton<Course>(Course());
 
   getIt.registerSingleton<Dio>(DioConfig.getDio());
-  runApp(MyApp());
+
+  WidgetsFlutterBinding.ensureInitialized();
+  UtilsPrefrence.getUserToken().then((token) {
+    DioConfig.setUserTokenHeader(token);
+
+    runApp(MyApp(token!=null));
+  });
 }
-
-// class MyApp extends StatelessWidget {
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Provider<Cart>(
-//       create: (_) => Cart(),
-//       dispose: (_, cart) => cart.dispose(),
-//       child: MaterialApp(
-//         home: Home(),
-//       ),
-//     );
-//   }
-// }
 
 class MyApp extends StatelessWidget {
   final routes = <String, WidgetBuilder>{
@@ -41,16 +33,18 @@ class MyApp extends StatelessWidget {
     // RegisterPage.tag: (context) => RegisterPage(),
   };
 
+  bool userLoggedIn;
+  MyApp(this.userLoggedIn);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Simple Login Page',
+      title: 'Course',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.lightBlue,
         fontFamily: 'Nunito',
       ),
-      home: LoginPage(), //Login page Load on app launch
+      home: userLoggedIn ? CourseListPage() : LoginPage(), //Login page Load on app launch
       routes: routes,
     );
   }

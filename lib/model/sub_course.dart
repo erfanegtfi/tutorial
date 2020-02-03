@@ -5,43 +5,34 @@ import 'package:tutorial/model/response/course_list_response.dart';
 import 'package:tutorial/netowrk/loading_state.dart';
 import 'package:tutorial/netowrk/rest_client.dart';
 import 'package:tutorial/shared/styles/constants.dart';
-part 'course.g.dart';
+part 'sub_course.g.dart';
 
-class Course = CourseBase with _$Course;
+class SubCourse = SubCourseBase with _$SubCourse;
 enum LoadingState { none, loading, loaded, error }
 
-abstract class CourseBase with Store {
+abstract class SubCourseBase with Store {
   int id;
   int userCreatorId;
-  int languageId;
+  int courseId;
   String title;
+  String type;
   String indexImg;
-  String description;
   String createdAt;
   String updatedAt;
   int courseUserCount;
   bool listLoading = false;
-  int page = 1;
   // @observable
   // var state = InitialState();
   @observable
   LoadingState loadingState = LoadingState.none;
   @observable
-  ObservableList<Course> _courseList = ObservableList<Course>();
-  ObservableList<Course> get courseList => _courseList;
+  ObservableList<SubCourse> _courseList = ObservableList<SubCourse>();
+  ObservableList<SubCourse> get courseList => _courseList;
   @observable
   DioError courseListError;
 
-  CourseBase(
-      {this.id,
-      this.userCreatorId,
-      this.languageId,
-      this.title,
-      this.indexImg,
-      this.description,
-      this.createdAt,
-      this.updatedAt,
-      this.courseUserCount});
+  SubCourseBase(
+      {this.id, this.userCreatorId, this.title, this.indexImg, this.createdAt, this.updatedAt, this.courseUserCount});
 
   @action
   Future<void> getCourseList() async {
@@ -50,31 +41,30 @@ abstract class CourseBase with Store {
     loadingState = LoadingState.loading;
 
     // return client.getCourseList();
-    client.getCourseList(page).then((it) {
-      if (_courseList.length > 0 && _courseList.elementAt(_courseList.length - 1).listLoading)
-        _courseList.removeAt(_courseList.length - 1);
+    client.getSubCourseList(id).then((it) {
+      // if (_courseList.length > 0 && _courseList.elementAt(_courseList.length - 1).listLoading)
+      //   _courseList.removeAt(_courseList.length - 1);
 
       loadingState = LoadingState.loaded;
-      _courseList.addAll(it.data.course);
+      _courseList.addAll(it.subCourseList);
 
-      if (_courseList.length >= Constants.PAGINATION) {
-        Course c = Course();
-        c.listLoading = true;
-        _courseList.add(c);
-      }
-      page++;
+      // if (_courseList.length >= Constants.PAGINATION) {
+      //   SubCourse c = SubCourse();
+      //   c.listLoading = true;
+      //   _courseList.add(c);
+      // }
     }).catchError((onError) {
       loadingState = LoadingState.error;
     });
   }
 
-  CourseBase.fromJson(Map<String, dynamic> json) {
+  SubCourseBase.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userCreatorId = json['user_creator_id'];
-    languageId = json['language_id'];
+    courseId = json['course_id'];
     title = json['title'];
+    type = json['type'];
     indexImg = json['index_img'];
-    description = json['description'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     courseUserCount = json['course_user_count'];
@@ -84,10 +74,10 @@ abstract class CourseBase with Store {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['user_creator_id'] = this.userCreatorId;
-    data['language_id'] = this.languageId;
+    data['course_id'] = this.courseId;
     data['title'] = this.title;
+    data['type'] = this.type;
     data['index_img'] = this.indexImg;
-    data['description'] = this.description;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['course_user_count'] = this.courseUserCount;
