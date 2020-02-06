@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:tutorial/model/course.dart';
+import 'package:tutorial/model/sub_course.dart';
 import 'package:tutorial/model/user.dart';
 import 'package:tutorial/netowrk/dio_configuration.dart';
 import 'package:tutorial/shared/utils/utils_prefrence.dart';
@@ -14,6 +15,7 @@ GetIt getIt = GetIt.instance;
 void main() {
   getIt.registerSingleton<User>(User());
   getIt.registerSingleton<Course>(Course());
+ getIt.registerSingleton<SubCourse>(SubCourse());
 
   getIt.registerSingleton<Dio>(DioConfig.getDio());
 

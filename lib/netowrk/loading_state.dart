@@ -2,9 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 
-abstract class LoadState extends Equatable {
+enum LoadingState { none, loading, loaded, error }
+
+// abstract class LoadState extends Equatable {
   // LoadingState([List props = const []]);
-}
+// }
 
 // class InitialState extends LoadState {
 //   @override

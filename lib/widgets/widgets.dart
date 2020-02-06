@@ -28,4 +28,13 @@ class Widgets {
       ),
     );
   }
+
+  static Widget noItemFoundCourse(String text) {
+    return Center(
+      child: Text(
+        text,
+        style: TextStyle(color: Colors.black, fontSize: 16),
+      ),
+    );
+  }
 }

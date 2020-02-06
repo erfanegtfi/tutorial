@@ -3,32 +3,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:tutorial/model/course.dart';
+import 'package:tutorial/model/sub_course.dart';
 import 'package:tutorial/model/user.dart';
 import 'package:tutorial/netowrk/loading_state.dart';
 import 'package:tutorial/shared/styles/constants.dart';
 import 'package:tutorial/ui/subCourse/sub_course_list_page.dart';
 import 'package:tutorial/widgets/widgets.dart';
 
-class CourseList extends StatefulWidget {
-  CourseList();
+class SubCourseList extends StatefulWidget {
+  int courseID;
+  SubCourseList(this.courseID);
 
   @override
   State<StatefulWidget> createState() {
-    return CourseListState();
+    return SubCourseListState();
   }
 }
 
-class CourseListState extends State<CourseList> {
+class SubCourseListState extends State<SubCourseList> {
   ScrollController controller;
   int _scrollThreshold = 400;
   bool isLoading;
 
-  final course = GetIt.instance<Course>();
+  final course = GetIt.instance<SubCourse>();
 
   @override
   void initState() {
     super.initState();
-    course.getCourseList();
+    course.getCourseList(widget.courseID);
     controller = new ScrollController()..addListener(_scrollListener);
   }
 
@@ -54,7 +56,7 @@ class CourseListState extends State<CourseList> {
           } else if (course.loadingState == LoadingState.loaded) {
             isLoading = false;
             if (course.courseList.length == 0)
-             return Widgets.noItemFoundCourse("No course found!");
+              return Widgets.noItemFoundCourse("No course found!");
             else
               return Container(
                   child: ListView.builder(
@@ -64,9 +66,8 @@ class CourseListState extends State<CourseList> {
               ));
           } else if (course.loadingState == LoadingState.error) {
             return Text(course.courseListError.toString());
-          } else {
+          } else
             return Container();
-          }
         },
       ),
     );
@@ -129,62 +130,57 @@ class CourseListState extends State<CourseList> {
     // }));
   }
 
-  Widget _buildCompanyItem(List<Course> courses, int index) {
+  Widget _buildCompanyItem(List<SubCourse> courses, int index) {
     if (courses.length > index && courses.elementAt(index).listLoading) //
       return Widgets.listLoadMoreBottom();
     else if (courses.length > index) return getCompanyItem(courses, index);
   }
 
-  Image _headerImage = new Image.asset(
-    'assets/pictures/login.png',
-    height: 100,
-    width: 100,
-  );
-
-  getCompanyItem(List<Course> courses, int index) {
+  getCompanyItem(List<SubCourse> courses, int index) {
     return GestureDetector(
       child: Card(
         elevation: 1.0,
         child: Container(
             padding: EdgeInsets.all(9),
             child: Column(
-              // children: <Widget>[
-              //   Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     CachedNetworkImage(
                       placeholder: (context, url) => CircularProgressIndicator(),
-                      errorWidget :(context, url, error) =>   _headerImage,
-                      height: 180.0,
-                      width: double.infinity,
+                      errorWidget: (context, url, error) => new Icon(Icons.error),
+                      height: 80.0,
+                      width: 80.0,
                       imageUrl: courses[index].indexImg,
                     ),
-                    // Expanded(
-                    //   child: Column(
-                    //     crossAxisAlignment: CrossAxisAlignment.start,
-                    //     children: <Widget>[
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
                           Text(courses[index].title,
                               textDirection: TextDirection.rtl, style: TextStyle(fontWeight: FontWeight.bold)),
                           Container(
                               margin: EdgeInsets.only(top: 10),
                               child: new Text(
-                                courses[index].description,
+                                courses[index].title,
                                 textDirection: TextDirection.rtl,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(fontSize: 14, height: 1.5),
                               )),
-                    //     ],
-                    //   ),
-                    // ),
-                //   ],
-                // ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
                 // Divider(),
               ],
             )),
       ),
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => SubCourseListPage(courses[index].id)));
+        // Navigator.push(context, MaterialPageRoute(builder: (context) => CompanyDetail(//InterviewsPage
+        //     companyLoaded.companies[index].companySlug)));
       },
     );
   }
@@ -196,7 +192,7 @@ class CourseListState extends State<CourseList> {
     if (maxScroll - currentScroll <= _scrollThreshold) {
       if (!isLoading && course.courseList.length % Constants.PAGINATION == 1) {
         isLoading = true;
-        course.getCourseList();
+        // course.getCourseList();
       }
     }
   }

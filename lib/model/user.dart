@@ -6,13 +6,11 @@ import 'package:tutorial/model/language.dart';
 import 'package:tutorial/model/response/login_response.dart';
 import 'package:tutorial/model/response/profile_response.dart';
 import 'package:tutorial/model/response/verify_response.dart';
+import 'package:tutorial/netowrk/loading_state.dart';
 import 'package:tutorial/netowrk/rest_client.dart';
-import 'package:tutorial/repository/authentication_repository.dart';
-import 'package:tutorial/shared/utils/utils_dialog.dart';
 part 'user.g.dart';
 
 class User = UserBase with _$User;
-enum LoadingState { none, loading, loaded, error }
 
 abstract class UserBase with Store {
   BuildContext _context;

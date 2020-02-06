@@ -1,14 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
-import 'package:tutorial/model/response/course_list_response.dart';
 import 'package:tutorial/netowrk/loading_state.dart';
 import 'package:tutorial/netowrk/rest_client.dart';
-import 'package:tutorial/shared/styles/constants.dart';
 part 'sub_course.g.dart';
 
 class SubCourse = SubCourseBase with _$SubCourse;
-enum LoadingState { none, loading, loaded, error }
+
 
 abstract class SubCourseBase with Store {
   int id;
@@ -35,7 +33,7 @@ abstract class SubCourseBase with Store {
       {this.id, this.userCreatorId, this.title, this.indexImg, this.createdAt, this.updatedAt, this.courseUserCount});
 
   @action
-  Future<void> getCourseList() async {
+  Future<void> getCourseList(int id) async {
     var dio = GetIt.instance<Dio>();
     final client = RestClient(dio);
     loadingState = LoadingState.loading;

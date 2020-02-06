@@ -8,7 +8,6 @@ import 'package:tutorial/shared/styles/constants.dart';
 part 'course.g.dart';
 
 class Course = CourseBase with _$Course;
-enum LoadingState { none, loading, loaded, error }
 
 abstract class CourseBase with Store {
   int id;

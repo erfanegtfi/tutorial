@@ -63,7 +63,7 @@ mixin _$SubCourse on SubCourseBase, Store {
   final _$getCourseListAsyncAction = AsyncAction('getCourseList');
 
   @override
-  Future<void> getCourseList() {
-    return _$getCourseListAsyncAction.run(() => super.getCourseList());
+  Future<void> getCourseList(int id) {
+    return _$getCourseListAsyncAction.run(() => super.getCourseList(id));
   }
 }
