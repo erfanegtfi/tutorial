@@ -54,6 +54,25 @@ class _RestClient implements RestClient {
   }
 
   @override
+  getCourse(id) async {
+    ArgumentError.checkNotNull(id, 'id');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        'course-list/get/$id',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = CourseDetailResponse.fromJson(_result.data);
+    return Future.value(value);
+  }
+
+  @override
   verfyUser(map) async {
     ArgumentError.checkNotNull(map, 'map');
     const _extra = <String, dynamic>{};

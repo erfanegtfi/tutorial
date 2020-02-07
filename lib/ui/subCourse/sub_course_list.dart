@@ -7,6 +7,8 @@ import 'package:tutorial/model/sub_course.dart';
 import 'package:tutorial/model/user.dart';
 import 'package:tutorial/netowrk/loading_state.dart';
 import 'package:tutorial/shared/styles/constants.dart';
+import 'package:tutorial/ui/details/detail.dart';
+import 'package:tutorial/ui/details/detail_page.dart';
 import 'package:tutorial/ui/subCourse/sub_course_list_page.dart';
 import 'package:tutorial/widgets/widgets.dart';
 
@@ -139,48 +141,66 @@ class SubCourseListState extends State<SubCourseList> {
   getCompanyItem(List<SubCourse> courses, int index) {
     return GestureDetector(
       child: Card(
+        margin: EdgeInsets.all(5),
         elevation: 1.0,
         child: Container(
-            padding: EdgeInsets.all(9),
             child: Column(
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    CachedNetworkImage(
-                      placeholder: (context, url) => CircularProgressIndicator(),
-                      errorWidget: (context, url, error) => new Icon(Icons.error),
-                      height: 80.0,
-                      width: 80.0,
-                      imageUrl: courses[index].indexImg,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(courses[index].title,
-                              textDirection: TextDirection.rtl, style: TextStyle(fontWeight: FontWeight.bold)),
-                          Container(
-                              margin: EdgeInsets.only(top: 10),
-                              child: new Text(
-                                courses[index].title,
-                                textDirection: TextDirection.rtl,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(fontSize: 14, height: 1.5),
-                              )),
-                        ],
-                      ),
-                    ),
-                  ],
+                CachedNetworkImage(
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => new Icon(Icons.error),
+                  height: 90.0,
+                  width: 110.0,
+                  fit: BoxFit.cover,
+                  imageUrl: courses[index].indexImg,
                 ),
-                // Divider(),
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Text(courses[index].title,
+                            textDirection: TextDirection.rtl, style: TextStyle(fontWeight: FontWeight.bold)),
+                        Container(
+                            margin: EdgeInsets.only(top: 10),
+                            child: new Text(
+                              courses[index].title,
+                              textDirection: TextDirection.rtl,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(fontSize: 14, height: 1.5),
+                            )),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Icon(
+                              Icons.shopping_cart,
+                              color: Colors.green,
+                              size: 24.0,
+                            ),
+                            Text("Courses:  ${courses[index].courseUserCount.toString()}")
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
               ],
-            )),
+            ),
+            // Divider(),
+          ],
+        )),
       ),
       onTap: () {
-        // Navigator.push(context, MaterialPageRoute(builder: (context) => CompanyDetail(//InterviewsPage
-        //     companyLoaded.companies[index].companySlug)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => CourseDetailsPage(//InterviewsPage
+            courses[index].id)));
       },
     );
   }

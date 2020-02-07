@@ -26,6 +26,23 @@ mixin _$Course on CourseBase, Store {
     }, _$loadingStateAtom, name: '${_$loadingStateAtom.name}_set');
   }
 
+  final _$courseAtom = Atom(name: 'CourseBase.course');
+
+  @override
+  Course get course {
+    _$courseAtom.context.enforceReadPolicy(_$courseAtom);
+    _$courseAtom.reportObserved();
+    return super.course;
+  }
+
+  @override
+  set course(Course value) {
+    _$courseAtom.context.conditionallyRunInAction(() {
+      super.course = value;
+      _$courseAtom.reportChanged();
+    }, _$courseAtom, name: '${_$courseAtom.name}_set');
+  }
+
   final _$_courseListAtom = Atom(name: 'CourseBase._courseList');
 
   @override
@@ -46,14 +63,14 @@ mixin _$Course on CourseBase, Store {
   final _$courseListErrorAtom = Atom(name: 'CourseBase.courseListError');
 
   @override
-  DioError get courseListError {
+  Meta get courseListError {
     _$courseListErrorAtom.context.enforceReadPolicy(_$courseListErrorAtom);
     _$courseListErrorAtom.reportObserved();
     return super.courseListError;
   }
 
   @override
-  set courseListError(DioError value) {
+  set courseListError(Meta value) {
     _$courseListErrorAtom.context.conditionallyRunInAction(() {
       super.courseListError = value;
       _$courseListErrorAtom.reportChanged();
@@ -65,5 +82,12 @@ mixin _$Course on CourseBase, Store {
   @override
   Future<void> getCourseList() {
     return _$getCourseListAsyncAction.run(() => super.getCourseList());
+  }
+
+  final _$getCourseAsyncAction = AsyncAction('getCourse');
+
+  @override
+  Future<void> getCourse(int courseid) {
+    return _$getCourseAsyncAction.run(() => super.getCourse(courseid));
   }
 }

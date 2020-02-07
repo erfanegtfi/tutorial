@@ -9,6 +9,9 @@ import 'package:tutorial/shared/utils/utils_prefrence.dart';
 import 'package:tutorial/ui/authentication/login_page.dart';
 import 'package:tutorial/ui/authentication/verification_page.dart';
 import 'package:tutorial/ui/course/course_list_page.dart';
+import 'package:tutorial/ui/details/audio_player.dart';
+import 'package:tutorial/ui/details/detail_page.dart';
+import 'package:tutorial/ui/details/video_player.dart';
 
 GetIt getIt = GetIt.instance;
 
@@ -35,6 +38,7 @@ class MyApp extends StatelessWidget {
     // RegisterPage.tag: (context) => RegisterPage(),
   };
 
+
   bool userLoggedIn;
   MyApp(this.userLoggedIn);
   @override
@@ -47,6 +51,8 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Nunito',
       ),
       home: userLoggedIn ? CourseListPage() : LoginPage(), //Login page Load on app launch
+      // home:  DetailsPage(1),
+      // home : AudioApp(),
       routes: routes,
     );
   }

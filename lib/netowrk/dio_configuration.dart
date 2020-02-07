@@ -35,7 +35,9 @@ class DioConfig {
   }
 
   static setUserTokenHeader(String token) {
-    Dio dio = GetIt.instance<Dio>();
-    dio.options.headers["Authorization"] = "Bearer " + token;
+    if (token != null) {
+      Dio dio = GetIt.instance<Dio>();
+      dio.options.headers["Authorization"] = "Bearer " + token;
+    }
   }
 }

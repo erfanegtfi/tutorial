@@ -1,5 +1,6 @@
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
+import 'package:tutorial/model/response/course_detail_response.dart';
 import 'package:tutorial/model/response/course_list_response.dart';
 import 'package:tutorial/model/response/login_response.dart';
 import 'package:tutorial/model/response/profile_response.dart';
@@ -16,6 +17,9 @@ abstract class RestClient {
 
   @GET("course-list/index/{id}")
   Future<SubCourseResponse> getSubCourseList(@Path("id") int id);
+
+  @GET("course-list/get/{id}")
+  Future<CourseDetailResponse> getCourse(@Path("id") int id);
 
   @POST("user/login/enter-login-code")
   Future<VerfyResponse> verfyUser(@Body() Map<String, dynamic> map);

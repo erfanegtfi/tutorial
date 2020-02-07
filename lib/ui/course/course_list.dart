@@ -54,7 +54,7 @@ class CourseListState extends State<CourseList> {
           } else if (course.loadingState == LoadingState.loaded) {
             isLoading = false;
             if (course.courseList.length == 0)
-             return Widgets.noItemFoundCourse("No course found!");
+              return Widgets.noItemFoundCourse("No course found!");
             else
               return Container(
                   child: ListView.builder(
@@ -136,7 +136,7 @@ class CourseListState extends State<CourseList> {
   }
 
   Image _headerImage = new Image.asset(
-    'assets/pictures/login.png',
+    'assets/pictures/load_image_error.png',
     height: 100,
     width: 100,
   );
@@ -146,42 +146,66 @@ class CourseListState extends State<CourseList> {
       child: Card(
         elevation: 1.0,
         child: Container(
-            padding: EdgeInsets.all(9),
             child: Column(
-              // children: <Widget>[
-              //   Column(
+          // children: <Widget>[
+          //   Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Stack(
+              children: <Widget>[
+                CachedNetworkImage(
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => Center(
+                    child: _headerImage,
+                  ),
+                  height: 220.0,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  imageUrl: courses[index].indexImg,
+                ),
+                Positioned.fill(
+                  child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Container(
+                        padding: EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
+                        decoration: new BoxDecoration(
+                            color: Colors.white, borderRadius: new BorderRadius.all(const Radius.circular(25.0))),
+                        margin: EdgeInsets.all(10),
+                        child: Text("Courses:  ${courses[index].courseUserCount.toString()}"),
+                      )),
+                ),
+              ],
+            ),
+            // Expanded(
+            //   child:
+            Container(
+                padding: EdgeInsets.all(10),
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    CachedNetworkImage(
-                      placeholder: (context, url) => CircularProgressIndicator(),
-                      errorWidget :(context, url, error) =>   _headerImage,
-                      height: 180.0,
-                      width: double.infinity,
-                      imageUrl: courses[index].indexImg,
+                    SizedBox(
+                      height: 10,
                     ),
-                    // Expanded(
-                    //   child: Column(
-                    //     crossAxisAlignment: CrossAxisAlignment.start,
-                    //     children: <Widget>[
-                          Text(courses[index].title,
-                              textDirection: TextDirection.rtl, style: TextStyle(fontWeight: FontWeight.bold)),
-                          Container(
-                              margin: EdgeInsets.only(top: 10),
-                              child: new Text(
-                                courses[index].description,
-                                textDirection: TextDirection.rtl,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(fontSize: 14, height: 1.5),
-                              )),
-                    //     ],
-                    //   ),
-                    // ),
-                //   ],
-                // ),
-                // Divider(),
-              ],
-            )),
+                    Text(courses[index].title,
+                        textDirection: TextDirection.rtl, style: TextStyle(fontWeight: FontWeight.bold)),
+                    Container(
+                        margin: EdgeInsets.only(top: 10),
+                        child: new Text(
+                          courses[index].description,
+                          textDirection: TextDirection.rtl,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(fontSize: 14, height: 1.5),
+                        )),
+                  ],
+                )),
+
+            // ),
+            //   ],
+            // ),
+            // Divider(),
+          ],
+        )),
       ),
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) => SubCourseListPage(courses[index].id)));
@@ -192,9 +216,8 @@ class CourseListState extends State<CourseList> {
   void _scrollListener() {
     final maxScroll = controller.position.maxScrollExtent;
     final currentScroll = controller.position.pixels;
-    // print("BlocBuilder BlocBuilder ${maxScroll} - ${currentScroll} - ${controller.offset}");
     if (maxScroll - currentScroll <= _scrollThreshold) {
-      if (!isLoading && course.courseList.length % Constants.PAGINATION == 1) {
+      if (!isLoading && course.courseList[course.courseList.length - 1].listLoading) {
         isLoading = true;
         course.getCourseList();
       }
