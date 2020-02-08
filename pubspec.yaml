@@ -13,6 +13,9 @@ description: A new Flutter project.
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 version: 1.0.0+1
 
+module:
+  androidX: true
+
 environment:
   sdk: ">=2.2.2 <3.0.0"
 
@@ -38,15 +41,17 @@ dependencies:
   cached_network_image: ^2.0.0
   video_player: ^0.10.6
   chewie: ^0.9.8+1
-  audioplayer: ^0.5.2
-  wave: ^0.0.8
+  audioplayers: ^0.14.0
+  # audioplayer: ^0.5.2
+  # flutter_launcher_icons: "^0.7.3"
+  # wave: ^0.0.8
   # neeko: ^0.0.6
   # video_player:
   #   git:
   #     url: https://github.com/999eagle/plugins.git
   #     # ref: feature/caching
   #     path: packages/video_player
-  flutter_cache_manager: ^1.1.3
+  # flutter_cache_manager: ^1.1.3
  
   # chopper: ^3.0.1+1
   flutter_verification_code_input:
@@ -70,6 +75,11 @@ dev_dependencies:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
+# flutter_icons:
+#   android: "launcher_icon" 
+#   ios: true
+#   image_path: "assets/icon/icon.png"
+
 # The following section is specific to Flutter.
 flutter:
   assets:
@@ -86,6 +96,11 @@ flutter:
     - assets/pictures/wave.jpg
     - assets/pictures/ic_play_audio.png
     - assets/pictures/ic_play_video.png
+
+  # plugin:
+  #   androidPackage: bz.rxla.audioplayer
+    
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

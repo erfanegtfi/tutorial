@@ -1,4 +1,3 @@
-import 'package:audioplayer/audioplayer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -6,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:tutorial/model/course.dart';
 import 'package:tutorial/netowrk/loading_state.dart';
 import 'package:tutorial/ui/details/audio_player.dart';
+import 'package:tutorial/ui/details/player_widget.dart';
 import 'package:tutorial/ui/details/video_player.dart';
 
 BuildContext _context;
@@ -105,7 +105,7 @@ class DetailState extends State<CourseDetail> {
                 Container(
                     margin: EdgeInsets.only(top: 10),
                     child: new Text(
-                      "description descriptiondes cript\n\n\n\n\ns dfsdfg sdfg\n\n\ns dfgsdfg\nde\n\n\n\n\n\n\nn\scrips dfgsd fgsdfgtion descriptiondes criptiondescripti ondescriptiondescription descriptiondes criptiondescripti ondescription\n\n\n\n\n\n\n\niondescripti ondescription description descriptiondes criptiondescripti ondescription",
+                      "description",
                       textDirection: TextDirection.rtl,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 14, height: 1.5),
@@ -192,7 +192,8 @@ Widget getPlayAudio(Course course) {
                 width: 30,
               ),
             ),
-            Text("Play audio")
+            Text("Play audio"),
+            
           ],
         ),
       ),),

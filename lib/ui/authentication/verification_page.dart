@@ -9,9 +9,10 @@ import 'package:tutorial/shared/styles/app_fonts.dart';
 import 'package:tutorial/shared/styles/app_string.dart';
 import 'package:tutorial/shared/utils/utils_dialog.dart';
 import 'package:tutorial/shared/utils/utils_prefrence.dart';
+import 'package:tutorial/ui/course/course_list.dart';
+import 'package:tutorial/ui/course/course_list_page.dart';
 
 import 'complete_profile.dart';
-
 
 class VerificationPage extends StatefulWidget {
   static String tag = 'verification-page';
@@ -30,6 +31,9 @@ class VerificationPage extends StatefulWidget {
 class _VerificationPageState extends State<VerificationPage> {
   // AuthenticationRepository authRepository = new AuthenticationRepository();
   final user = GetIt.instance<User>();
+  String code;
+  ProgressDialog pr;
+
   @override
   void initState() {
     pr = new ProgressDialog(context);
@@ -43,8 +47,6 @@ class _VerificationPageState extends State<VerificationPage> {
     style: AppFonts.verificationCodeText(),
   );
 
-  String code;
-  ProgressDialog pr;
   Text titleText = Text(
     AppStrings.verificationEnterVerificationCode,
     textAlign: TextAlign.center,
@@ -113,14 +115,23 @@ class _VerificationPageState extends State<VerificationPage> {
     if (code != null) {
       pr.show();
       user.verifyUser(code).then((it) {
-        pr.dismiss();
-        UtilsPrefrence.storeUserToken(it.data.token);
-        // if(it.data.user.languageId==0)
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => CompleteProfilePage(it.data.language, widget.id),
-            ));
+       
+        UtilsPrefrence.storeUserToken(it.data.token).then((val) {
+           pr.dismiss();
+          if (it.data.user.languageId == 0) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CompleteProfilePage(it.data.language, widget.id),
+                ));
+          } else {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CourseListPage(),
+                ));
+          }
+        });
       }).catchError((onError) {
         pr.dismiss();
         UtilsDialog.showErrorDialog(context, "Invaid code", "Please enter code again");

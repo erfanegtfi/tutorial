@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:tutorial/model/user.dart';
 import 'package:tutorial/repository/authentication_repository.dart';
 import 'package:tutorial/shared/styles/app_fonts.dart';
@@ -9,7 +10,6 @@ import 'package:tutorial/shared/utils/form_validator.dart';
 import 'package:tutorial/shared/utils/utils_dialog.dart';
 import 'package:tutorial/shared/utils/utils_prefrence.dart';
 import 'package:tutorial/ui/authentication/verification_page.dart';
-
 
 class LoginPage extends StatefulWidget {
   static String tag = 'login-page';
@@ -23,6 +23,13 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final user = GetIt.instance<User>();
   // AuthenticationRepository authRepository = new AuthenticationRepository();
+  ProgressDialog pr;
+  @override
+  void initState() {
+    pr = new ProgressDialog(context);
+    super.initState();
+  }
+
   Text helloText = Text(
     AppStrings.loginHello,
     textAlign: TextAlign.center,
@@ -44,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
   );
 
   GlobalKey<FormState> _key = new GlobalKey();
- 
+
   // bool _obscureText = true;
   // bool _validate = false;
 
@@ -183,9 +190,10 @@ class _LoginPageState extends State<LoginPage> {
     if (_key.currentState.validate()) {
       // No any error in validation
       _key.currentState.save();
+      pr.show();
       user.login(user.email).then((it) {
-        user.id= it.user.id;
- 
+        user.id = it.user.id;
+        pr.dismiss();
         Navigator.push(
             context,
             MaterialPageRoute(

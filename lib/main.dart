@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
       title: 'Course',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.lightBlue,
+        primarySwatch: Colors.red,
         fontFamily: 'Nunito',
       ),
       home: userLoggedIn ? CourseListPage() : LoginPage(), //Login page Load on app launch

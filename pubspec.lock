@@ -36,13 +36,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.4.0"
-  audioplayer:
+  audioplayers:
     dependency: "direct main"
     description:
-      name: audioplayer
+      name: audioplayers
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.2"
+    version: "0.14.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -217,7 +217,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_cache_manager:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_cache_manager
       url: "https://pub.dartlang.org"
@@ -695,13 +695,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.9.7+13"
-  wave:
-    dependency: "direct main"
-    description:
-      name: wave
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.8"
   web_socket_channel:
     dependency: transitive
     description:

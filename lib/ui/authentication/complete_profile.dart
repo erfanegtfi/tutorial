@@ -9,6 +9,7 @@ import 'package:tutorial/shared/styles/app_fonts.dart';
 import 'package:tutorial/shared/styles/app_string.dart';
 import 'package:tutorial/shared/utils/form_validator.dart';
 import 'package:tutorial/shared/utils/utils_dialog.dart';
+import 'package:tutorial/ui/course/course_list_page.dart';
 
 class CompleteProfilePage extends StatefulWidget {
   static String tag = 'CompleteProfilePage-page';
@@ -225,19 +226,18 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
     if (_key.currentState.validate()) {
       // No any error in validation
       _key.currentState.save();
-
-      user.updateUserProfile(user.fullName, user.language.id.toString(), widget.userID.toString()).then((it) {
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //       builder: (context) => VerificationPage(
-        //         email: user.email,
-        //         id: user.id,
-        //       ),
-        //     ));
-      }).catchError((onError) {
-        UtilsDialog.showErrorDialog(context, "Error", "An error ecoured");
-      });
+      if (user.language == null) {
+        UtilsDialog.showErrorDialog(context, "Language is required", "Please select your language.");
+      } else
+        user.updateUserProfile(user.fullName, user.language.id.toString(), widget.userID.toString()).then((it) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CourseListPage(),
+              ));
+        }).catchError((onError) {
+          UtilsDialog.showErrorDialog(context, "Error", "An error ecoured");
+        });
 
       //   AuthenticationRepository authenticationRepository = AuthenticationRepository();
       //   authenticationRepository

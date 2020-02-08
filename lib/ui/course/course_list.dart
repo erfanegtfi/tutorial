@@ -63,7 +63,9 @@ class CourseListState extends State<CourseList> {
                 controller: controller,
               ));
           } else if (course.loadingState == LoadingState.error) {
-            return Text(course.courseListError.toString());
+            return Center(
+              child: Text(course.courseListError.toString()),
+            );
           } else {
             return Container();
           }
@@ -154,7 +156,11 @@ class CourseListState extends State<CourseList> {
             Stack(
               children: <Widget>[
                 CachedNetworkImage(
-                  placeholder: (context, url) => CircularProgressIndicator(),
+                  placeholder: (context, url) => SizedBox(
+                    height: 80,
+                    child: Center(
+                    child: CircularProgressIndicator(),
+                  ),) ,
                   errorWidget: (context, url, error) => Center(
                     child: _headerImage,
                   ),
